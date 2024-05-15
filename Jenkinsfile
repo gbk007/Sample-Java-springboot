@@ -11,12 +11,12 @@ pipeline{
                 sh 'mvn clean install'
             }
          }
-       stage('SonarQube Analysis Stage') {
+       /*stage('SonarQube Analysis Stage') {
             steps{
                 withSonarQubeEnv('sonartest1') { 
                     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=demo-sonar1"
                 }
             }
-        }
+        }*/
     }
 }
