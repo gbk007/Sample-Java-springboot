@@ -18,7 +18,7 @@ pipeline {
             steps {
                 // Use curl or any other method to push artifacts to JFrog
                 sh '''
-                    curl -u test:Test@123 -T target/*.jar "http://15.206.158.39:8081/artifactory/webapp/#/artifacts/browse/tree/General/libs-release-local"
+                    curl -u test:Test@123 -T *.jar "http://15.206.158.39:8081/artifactory/webapp/#/artifacts/browse/tree/General/libs-release-local"
                 '''
             }
         }
