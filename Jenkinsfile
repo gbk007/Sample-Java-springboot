@@ -34,7 +34,7 @@ pipeline {
                     def buildDir = '.' // Use the current directory
                     
                     // Transfer artifacts to JFrog Artifactory slave using curl
-                    sh "curl -u ${jfrogUser}:${jfrogPassword} -T ${buildDir}/*.jar http://15.206.158.39:8081/artifactory/${repoName}/"
+                    sh "curl -u ${jfrogUser}:${jfrogPassword} -T ${buildDir}/jenkins-test-1.0.jar http://15.206.158.39:8081/artifactory/${repoName}/"
                 }
             }
         }
