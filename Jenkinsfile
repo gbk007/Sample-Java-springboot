@@ -1,22 +1,26 @@
-pipeline{
-    agent any
-    stages{
-       /*stage('Git Checkout Stage'){
-            steps{
-                git branch: 'main', url: 'https://github.com/tranju664/Sonar-Qube-war-example.git'
+pipeline {
+    agent none
+
+    stages {
+        stage('Build Stage') {
+            agent {
+                label 'master-jenkins'
             }
-         }*/       
-       stage('Build Stage'){
-            steps{
+            steps {
+                // Build your project
                 sh 'mvn clean install'
             }
-         }
-       /*stage('SonarQube Analysis Stage') {
-            steps{
-                withSonarQubeEnv('sonartest1') { 
-                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=demo-sonar1"
-                }
+        }
+        stage('Push to JFrog') {
+            agent {
+                label 'jfrog-slave'
             }
-        }*/
+            steps {
+                // Use curl or any other method to push artifacts to JFrog
+                sh '''
+                    curl -u test:Test@123 -T target/*.jar "http://15.206.158.39:8081/artifactory/webapp/#/artifacts/browse/tree/General/libs-release-local"
+                '''
+            }
+        }
     }
 }
