@@ -1,25 +1,41 @@
 pipeline {
     agent none
-
+    
     stages {
-        stage('Build Stage') {
+        stage('Build') {
             agent {
-                label 'master-jenkins'
+               label 'master-jenkins'
             }
             steps {
-                // Build your project
-                sh 'mvn clean install'
+                script {
+                    // Build the Maven project
+
+                    sh 'mvn clean install' // Replace this with your Maven build command
+                    
+                    // Stash the built artifacts
+                    
+                    stash includes: 'target/*.jar', name: 'artifacts'
+                }
             }
         }
-        stage('Push to JFrog') {
+        
+        stage('Transfer Artifacts to JFrog Slave') {
             agent {
-                label 'jfrog-slave'
+                label 'jfrog-slave' // Replace this with the label of your Jenkins slave node
             }
             steps {
-                // Use curl or any other method to push artifacts to JFrog
-                sh '''
-                    curl -u test:Test@123 -T /var/lib/jenkins/workspace/Artifactory/target/jenkins-test-1.0.jar "http://15.206.158.39:8081/artifactory/webapp/#/artifacts/browse/tree/General/libs-release-local"
-                '''
+                script {
+                    // Unstash the artifacts on the slave node
+                    unstash 'artifacts'
+                    
+                    def jfrogUser = 'test' // Replace this with your JFrog Artifactory username
+                    def jfrogPassword = 'Test@123' // Replace this with your JFrog Artifactory password
+                    def repoName = 'libs-release-local' // Replace this with the name of your Artifactory repository
+                    def buildDir = '.' // Use the current directory
+                    
+                    // Transfer artifacts to JFrog Artifactory slave using curl
+                    sh "curl -u ${jfrogUser}:${jfrogPassword} -T ${buildDir}/*.jar http://http://15.206.158.39:8081/artifactory/${repoName}/"
+                }
             }
         }
     }
