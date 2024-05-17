@@ -2,22 +2,13 @@ pipeline {
     agent none
 
     stages {
-        /* stage('Setup JFrog CLI') {
-            agent { label 'slave1' }
-            steps {
-                sh '''
-                    # Configure JFrog CLI if not already configured
-                    jf c add --interactive=false --url=http://65.2.35.102:8081/artifactory --user=admin --password=password --server-id=my-artifactory-server
-                '''
-            }
-        }*/
-        stage ('Build Stage') {
+        stage('Build Stage') {
             agent { label 'slave1' }
             steps {
                 sh 'mvn clean install'
             }
         }
-        stage ('Publish Artifacts') {
+        stage('Publish Artifacts') {
             agent { label 'slave1' }
             steps {
                 script {
@@ -27,12 +18,10 @@ pipeline {
                         # jf rt use my-artifactory-server
 
                         # Upload artifacts to Artifactory
-                        jf rt upload --server-id=my-artifactory-server "target/*.jar" --url=http://65.2.35.102:8081/artifactory/libs-release/
+                        jf rt upload --server-id=my-artifactory-server "target/*.jar" "libs-release-local/"
                     '''
                 }
             }
         }
     }
 }
-
-
