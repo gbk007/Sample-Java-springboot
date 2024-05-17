@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         stage('Setup JFrog CLI') {
-            agent { label 'jfrog-slave' }
+            agent { label 'slave1' }
             steps {
                 sh '''
                     # Configure JFrog CLI if not already configured
