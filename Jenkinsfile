@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                     # Configure JFrog CLI if not already configured
-                    jf config add --interactive=false --url=http://65.2.35.102:8081/artifactory --user=admin --password=password --server-id=my-artifactory-server
+                    jf c add --interactive=false --url=http://65.2.35.102:8081/artifactory --user=admin --password=password --server-id=my-artifactory-server
                 '''
             }
         }
