@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Using the JFrog CLI configuration
-                    sudo sh '''
+                    sh '''
                         # Ensure JFrog CLI is configured
                         #jf rt u my-artifactory-server
 
