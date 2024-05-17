@@ -18,7 +18,7 @@ pipeline {
                         # jf rt use my-artifactory-server
 
                         # Upload artifacts to Artifactory
-                        jf rt u "target/*.jar" "http://65.2.35.102:8081/artifactory/libs-release/"
+                        jf rt u --server-id=my-artifactory-server "target/*.jar" "http://65.2.35.102:8081/artifactory/libs-release/"
                     '''
                 }
             }
