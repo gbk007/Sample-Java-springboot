@@ -2,7 +2,7 @@ pipeline {
     agent none
 
     stages {
-        stage('Setup JFrog CLI') {
+        /* stage('Setup JFrog CLI') {
             agent { label 'slave1' }
             steps {
                 sh '''
@@ -10,7 +10,7 @@ pipeline {
                     jf c add --interactive=false --url=http://65.2.35.102:8081/artifactory --user=admin --password=password --server-id=my-artifactory-server
                 '''
             }
-        }
+        }*/
         stage ('Build Stage') {
             agent { label 'slave1' }
             steps {
