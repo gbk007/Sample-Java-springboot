@@ -1,26 +1,24 @@
 pipeline {
     agent none
-
     stages {
         stage('Build Stage') {
-            agent { label 'slave1' }
+            agent {
+                label 'slave1'
+            }
             steps {
                 sh 'mvn clean install'
             }
-        }
-        stage('Publish Artifacts') {
-            agent { label 'slave1' }
-            steps {
-                script {
-                    // Using the JFrog CLI configuration
-                    sh '''
-                        # Ensure JFrog CLI is configured
-                        #jf rt u my-artifactory-server
-
-                        # Upload artifacts to Artifactory
-                        jf rt upload --server-id=my-artifactory-server --url=http://65.2.35.102:8081/artifactory/ target/*.jar libs-release-local/
-                        #jf rt upload --server-id=my-artifactory-server --url=http://65.2.35.102:8081/artifactory/ home/ubuntu/jenkins/workspace/Artifactory/target/jenkins-test-1.0.jar libs-release-local/
-                    '''
+            post {
+                success {
+                    script {
+                        def server = Artifactory.newServer url: 'http://3.109.206.53:8081/artifactory/libs-release/',credentialsId: 'jfrog'
+                        def rtMaven = Artifactory.newMavenBuild()
+                        rtMaven.deployer server: server, releaseRepo: 'libs-release/', snapshotRepo: 'libs-snapshot/'
+                        rtMaven.deployer.deployArtifacts = true
+                        rtMaven.deployer.deployBuildInfo = true
+                        rtMaven.tool = 'maven'
+                        rtMaven.run pom: 'pom.xml', goals: 'clean install'
+                    }
                 }
             }
         }
