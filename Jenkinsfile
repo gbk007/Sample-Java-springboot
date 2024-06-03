@@ -20,5 +20,16 @@ pipeline {
                 }
             }
         }
+        
+        stage('Download Artifact') {
+            agent {
+                label 'slave2'
+            }
+            steps {
+                script {
+                    sh 'curl -o jenkins-test-1.0.jar http://3.109.206.53:8081/artifactory/libs-release/com/example/jenkins-test/1.0/jenkins-test-1.0.jar'
+                }
+            }
+        }
     }
 }
