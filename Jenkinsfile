@@ -28,8 +28,8 @@ pipeline {
             steps {
                 script {
                     sh 'curl -o jenkins-test-1.0.jar http://3.109.206.53:8081/artifactory/libs-release/com/example/jenkins-test/1.0/jenkins-test-1.0.jar'
-                    sh 'docker build -t javaapp .'
-                    sh 'docker run javaapp'
+                    sh 'sudo docker build -t javaapp .'
+                    sh 'sudo docker run javaapp'
                 }
             }
         }
