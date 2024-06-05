@@ -11,7 +11,7 @@ pipeline {
             post {
                 success {
                     script {
-                        def server = Artifactory.newServer url: 'http://3.109.206.53:8081/artifactory/', credentialsId: 'jfrog'
+                        def server = Artifactory.newServer url: 'http://13.127.7.200:8081/artifactory/', credentialsId: 'jfrog'
                         def rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'libs-release/', snapshotRepo: 'libs-snapshot/'
                         rtMaven.tool = 'maven'
@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'curl -o jenkins-test-1.0.jar http://3.109.206.53:8081/artifactory/libs-release/com/example/jenkins-test/1.0/jenkins-test-1.0.jar'
+                    sh 'curl -o jenkins-test-1.0.jar http://13.127.7.200:8081/artifactory/libs-release/com/example/jenkins-test/1.0/jenkins-test-1.0.jar'
                     sh 'sudo docker build -t javaapp .'
                     sh 'sudo docker run javaapp'
                 }
