@@ -20,6 +20,17 @@ pipeline {
                 }
             }
         }
+
+         stage('SonarQube Analysis Stage') {
+            agent {
+                lable 'slave1'
+            }
+            steps{
+                withSonarQubeEnv('sonarqube') { 
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonar-demo"
+                }
+            }
+        }
         
         stage('Download Artifact') {
             agent {
