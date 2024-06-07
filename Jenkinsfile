@@ -8,6 +8,11 @@ pipeline {
             steps {
                 sh 'mvn clean install'
             }
+            steps {
+                withSonarQubeEnv('sonarqube') { 
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonar-demo"
+                }
+            }
             post {
                 success {
                     script {
