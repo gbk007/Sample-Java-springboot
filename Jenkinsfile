@@ -23,7 +23,7 @@ pipeline {
 
          stage('SonarQube Analysis Stage') {
             agent {
-                lable 'slave1'
+                label 'slave1'
             }
             steps{
                 withSonarQubeEnv('sonarqube') { 
